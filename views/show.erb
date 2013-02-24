@@ -1,0 +1,19 @@
+<div class="container" style="margin-top=20px;">
+	<h1>The secret checking place!</h1>
+	<table class="table table-striped">
+		<tr>
+			<th>Title</th>
+			<th>Content</th>
+			<th>Poster</th>
+			<th></th>
+		</tr>
+		<% @articles.each do |article| %>
+			<tr>
+				<td><%= article.title %></td>
+				<td><%= article.content %></td>
+				<td><%= article.poster %></td>
+				<td><a href="/article/check/<%= article.id %>">Check!</a></td>
+			</tr>
+		<% end %>
+	</table>
+</div>
