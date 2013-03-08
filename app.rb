@@ -17,7 +17,7 @@ class Article
     include DataMapper::Resource
 
     property :id, Serial
-    property :title, Text, :required => true
+    property :title, String, :required => true
     property :content, Text, :required => true
     property :poster, String, :required => true
     property :email, String, :required => true
