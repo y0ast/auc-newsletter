@@ -99,7 +99,7 @@ post '/article' do
         @message = "Please check your email to confirm your article"
         erb :"message"
     else
-        @message = "Something went wrong! Please use your student email (@student.auc.nl) and fill out all fields. If you don't have a student email please contact AUCSA (info@aucsa.nl)"
+        @message = "Something went wrong! Please use your student email (@student.auc.nl) and fill out all fields (mind the max length of the title field). If you don't have a student email please contact AUCSA (info@aucsa.nl)."
         erb :"error"
     end
 end

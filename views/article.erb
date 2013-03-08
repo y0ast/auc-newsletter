@@ -1,46 +1,58 @@
 <div class="container">
+    <form action="/article" method="post" class="form-horizontal">
+        <div class="control-group">
+            <div class="controls">
+                <h1>New Article</h1>
+                <h4>All input is required!</h4>
+            </div>
+        </div>
 
-<form action="/article" method="post" class="form-horizontal">
-    <div class="control-group">
-        <div class="controls">
-            <h1>New Article</h1>
-            <h4>All input is required!</h4>
+        <div class="control-group">
+            <label class="control-label" for="article_title">Title:</label>
+            <div class="controls">
+                <input id="article_title" name="article[title]" type="text" />
+                <span class="help-inline" id="errortitle" style="display:none;">Your title is too long, please stick to 255 characters</span>
+            </div>
         </div>
-    </div>
+        <script>
+            $('#article_title').keyup(function(){
+                console.log($(this).val().length);
+                if ($(this).val().length > 50) {
+                    $(this).parents('.control-group').addClass('error');
+                    $('#errortitle').show();
+                    } else {
+                    $(this).parent('.control-group').removeClass('error');
+                    $('#errortitle').hide();
+                }
+            });
+        </script>
 
-    <div class="control-group">
-        <label class="control-label" for="article_title">Title:</label>
-        <div class="controls">
-            <input id="article_title" name="article[title]" type="text" />
-        </div>
-    </div>
+            <div class="control-group">
+                <label class="control-label" for="article_content">Content:</label>
+                <div class="controls">
+                    <textarea id="article_content" name="article[content]" rows="10" style="width:500px;"></textarea>
+                </div>
+            </div>
 
-    <div class="control-group">
-        <label class="control-label" for="article_content">Content:</label>
-        <div class="controls">
-            <textarea id="article_content" name="article[content]" rows="10" style="width:500px;"></textarea>
-        </div>
-    </div>
 
-    
-    <div class="control-group">
-            <label class="control-label" for="article_poster">Your name or committee:</label>
-        <div class="controls">
-            <input id="article_poster" name="article[poster]" type="text" />
-        </div>
-    </div>
-    
-    <div class="control-group">
-        <label class="control-label" for="article_email">Your student email:</label>
-        <div class="controls">
-            <input id="article_email" name="article[email]" type="text" />
-        </div>
-    </div>
+            <div class="control-group">
+                <label class="control-label" for="article_poster">Your name or committee:</label>
+                <div class="controls">
+                    <input id="article_poster" name="article[poster]" type="text" />
+                </div>
+            </div>
 
-    <div class="control-group">
-        <div class="controls">
-            <input type="submit" value="Send in Article" class="btn btn-primary"/>
-        </div>
+            <div class="control-group">
+                <label class="control-label" for="article_email">Your student email:</label>
+                <div class="controls">
+                    <input id="article_email" name="article[email]" type="text" />
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="controls">
+                    <input type="submit" value="Send in Article" class="btn btn-primary"/>
+                </div>
+            </div>
+        </form> 
     </div>
-</form> 
-</div>
