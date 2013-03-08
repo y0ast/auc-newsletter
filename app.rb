@@ -51,6 +51,14 @@ get '/article/check/:id' do
    end
 end
 
+get '/article/delete/:id' do
+   if Article.get(params[:id]).destroy
+       redirect '/list'
+   else 
+       redirect '/'
+   end
+end
+
 get '/list' do
     @articles = Article.all(:checked => false, :confirmed => true)
     erb :"show"
