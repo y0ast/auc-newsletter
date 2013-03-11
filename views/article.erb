@@ -16,7 +16,6 @@
         </div>
         <script>
             $('#article_title').keyup(function(){
-                console.log($(this).val().length);
                 if ($(this).val().length > 50) {
                     $(this).parents('.control-group').addClass('error');
                     $('#errortitle').show();
