@@ -70,7 +70,6 @@ post '/article' do
 
     if @article.email == "info@aucsa.nl"
         @article.confirmed = true
-        puts @article.inspect
         if @article.save
             puts Article.get(params[:article][:id]).inspect
             @message = "Your article is received and confirmed."
