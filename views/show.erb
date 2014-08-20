@@ -11,10 +11,15 @@
 		<% @articles.each do |article| %>
 			<tr>
 				<td><%= article.title %></td>
-				<td><%= article.content %></td>
+				<td style="width:450px"><%= article.content %></td>
 				<td><%= article.poster %></td>
-				<td><a href="/article/check/<%= article.id %>">Check!</a></td>
-                <td><a href="/article/delete/<%= article.id %>">Delete!</a></td>
+				<td colspan="2">
+					<div class="btn-group">
+						<a class="btn btn-success" href="/article/<%= article.id %>/check">Confirm</a>
+		  				<a class="btn btn-warning" href="/article/<%= article.id %>/edit">Edit</a>
+		  				<a class="btn btn-danger" href="/article/<%= article.id %>/delete">Delete</a>
+					</div>
+				</td>
 			</tr>
 		<% end %>
 	</table>
