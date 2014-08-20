@@ -4,6 +4,7 @@ require 'data_mapper'
 require 'builder'
 require 'pony'
 require 'sinatra/config_file'
+require 'digest/sha1'
 
 config_file 'config.yml'
 
@@ -24,6 +25,7 @@ class Article
     property :created_at, DateTime
     property :confirmed, Boolean, :default => false
     property :checked, Boolean, :default => false
+    property :confirmhash, String
 end
 
 DataMapper.finalize
@@ -31,11 +33,12 @@ DataMapper.auto_upgrade!
 
 get '/' do
     @article = Article.new
+    @title = "New Article"
     erb :"article"
 end
 
-get '/article/confirm/:id' do
-   if Article.get(params[:id]).update(:confirmed => true)
+get '/article/:confirmhash/confirm' do
+   if Article.first(:confirmhash => params[:confirmhash]).update(:confirmed => true)
        @message = "Your article is succesfully submitted, it will be available in the next weekly" 
        erb :"message"
    else 
@@ -43,21 +46,38 @@ get '/article/confirm/:id' do
    end
 end
 
-get '/article/check/:id' do
-   if Article.get(params[:id]).update(:checked => true)
+get '/article/:id/check' do
+   if Article.get(params[:id].to_i).update(:checked => true)
        redirect '/list'
    else 
        redirect '/'
    end
 end
 
-get '/article/delete/:id' do
-   if Article.get(params[:id]).destroy
+get '/article/:id/delete' do
+   if Article.get(params[:id].to_i).destroy
        redirect '/list'
    else 
        redirect '/'
    end
 end
+
+get '/article/:id/edit' do
+    @article = Article.get(params[:id].to_i)
+    erb :"edit"
+end
+
+put '/article/:id' do
+    @article = Article.get(params[:id].to_i)
+    if @article.update(params[:article])
+        redirect 'list'
+    else
+        @message = "Something went wrong, please try again"
+        erb :"error"
+    end
+end
+
+    
 
 get '/list' do
     @articles = Article.all(:checked => false, :confirmed => true)
@@ -66,12 +86,13 @@ end
 
 post '/article' do
     @article = Article.new(params[:article])
+    @article.confirmhash = Digest::SHA1.hexdigest(@article.content + "supersecretsalt")
+
     emails = ["@auc.nl", "@student.auc.nl","@aucsa.nl"]
 
     if @article.email == "info@aucsa.nl"
         @article.confirmed = true
         if @article.save
-            puts Article.get(params[:article][:id]).inspect
             @message = "Your article is received and confirmed."
             erb :"message"
          else
@@ -93,7 +114,9 @@ post '/article' do
             :password             => ENV['SENDGRID_PASSWORD'] || settings.password,
             :domain               => "heroku.com" # the HELO domain provided by the client to the server
         },
-            :subject => 'Please confirm your post', :body => 'Please follow this link: ' + request.url + "/confirm/#{@article.id} to confirm your news article"
+            :subject => 'Please confirm your post', 
+            :html_body => "Please follow this link: " + request.url + "/#{@article.confirmhash}/confirm to confirm your news article.<br/><hr><br/>
+                            <h3>" + @article.title + "</h3><br/>" + @article.content
         })
         @message = "Please check your email to confirm your article"
         erb :"message"

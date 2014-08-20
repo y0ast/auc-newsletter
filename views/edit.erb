@@ -1,0 +1,55 @@
+<div class="container" style="width:500px">
+    <div class="row">
+        <form action="/article/<%= @article.id %>" method="post" class="form-horizontal">
+            <input type="hidden" name="_method" value="put" />
+
+            <div class="form-group">
+                <div class="controls">
+                    <h1>Edit Article</h1>
+                    <h4>All input is still required!</h4>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label" for="article_title">Title:</label>
+                <div class="controls">
+                    <input class="form-control" id="article_title" name="article[title]" type="text" value="<%= @article.title %>"/>
+                    <span class="help-inline" id="errortitle" style="display:none;">Your title is too long, please stick to 50 characters</span>
+                </div>
+            </div>
+            <script>
+                $('#article_title').keyup(function(){
+                    if ($(this).val().length > 50) {
+                        $(this).parents('.form-group').addClass('has-error');
+                        $('#errortitle').show();
+                        } else {
+                        $(this).parents('.form-group').removeClass('has-error');
+                        $('#errortitle').hide();
+                    }
+                });
+                </script>
+
+            <div class="form-group">
+                <label class="control-label" for="article_content">Content:</label>
+                <div class="controls">
+                    <textarea class="form-control" name="article[content]" rows="10"><%= @article.content %></textarea>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="control-label" for="article_poster">Your name or committee:</label>
+                <div class="controls">
+                    <input class="form-control" name="article[poster]" type="text" value="<%= @article.poster %>"/>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="controls">
+                    <input type="submit" value="Edit article" class="btn btn-primary"/>
+                </div>
+            </div>
+        </form> 
+    </div>
+</div>
