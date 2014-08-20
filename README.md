@@ -8,3 +8,18 @@ Config.yml requires:
 - db : [Database url]
 - username: [Gmail username]
 - password: [Gmail password]
+
+
+```
+brew install postgres
+initdb /usr/local/var/postgres
+createdb newsletter
+```
+
+Url then becomes `db: postgres://localhost/newsletter`
+
+To start and stop postgres:
+```
+pg_ctl -D /usr/local/var/postgres start
+pg_ctl -D /usr/local/var/postgres stop
+```
