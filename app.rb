@@ -38,7 +38,7 @@ get '/' do
 end
 
 get '/article/:confirmhash/confirm' do
-   if Article.first(:confirmhash => params[:confirmhash]).update(:confirmed => true)
+   if Article.last(:confirmhash => params[:confirmhash]).update(:confirmed => true)
        @message = "Your article is succesfully submitted, it will be available in the next weekly" 
        erb :"message"
    else 
@@ -86,7 +86,7 @@ end
 
 post '/article' do
     @article = Article.new(params[:article])
-    @article.confirmhash = Digest::SHA1.hexdigest(@article.content + "supersecretsalt")
+    @article.confirmhash = Digest::SHA1.hexdigest(@article.content + @article.created_at.to_s)
 
     emails = ["@auc.nl", "@student.auc.nl","@aucsa.nl"]
 
