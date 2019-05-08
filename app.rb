@@ -12,7 +12,7 @@ configure :production do
       require 'newrelic_rpm'
 end
 
-DataMapper.setup(:default, ENV['DATABASE_URL'] || settings.db)
+DataMapper.setup(:default, ENV['HEROKU_POSTGRESQL_OLIVE_URL'] || settings.db)
 
 class Article
     include DataMapper::Resource
