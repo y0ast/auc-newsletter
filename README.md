@@ -1,4 +1,4 @@
-#Automatic newsletter for AUC and AUCSA
+# Automatic newsletter for AUC and AUCSA
 
 Heroku dependencies: sendgrid, postgres
 
